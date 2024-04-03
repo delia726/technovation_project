@@ -69,6 +69,9 @@ export default function HomeScreen({ navigation }: any) {
   const handleNoButtonPress = () => {
     setMarkerDialogVisible(false); 
   };
+  const handleExitButtonPress = () => {
+    setMarkerDialogVisible(false); 
+  };
   return (
     <View style={stil.container}>
       <MapView style={stil.map} initialRegion={initialRegion}>
@@ -167,15 +170,17 @@ export default function HomeScreen({ navigation }: any) {
       <Portal>
         <Dialog visible={markerDialogVisible} onDismiss={hideDialog}>
         <Dialog.Title>
-            <Text style={{ fontWeight: 'bold' }}>You clicked on the war between Ukraine and Russia</Text>
+        <Text style={{ fontWeight: 'bold', color: '#651567', fontSize: 25, textAlign: 'justify' }}>You clicked on the war between Ukraine and Russia</Text>
           </Dialog.Title>
           <Dialog.Content>
-            <Text variant="bodyMedium">Is this hazard real?</Text>
+          <Text style={{ fontWeight: 'bold' }}>Is this hazard real?</Text>
             <Text variant="bodyMedium">100.000+ other people say it is a real threat</Text>
+           
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={handleNoButtonPress}>No</Button>
             <Button onPress={handleYesButtonPress}>Yes</Button>
+            <Button onPress={handleExitButtonPress}>Exit</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
@@ -265,6 +270,5 @@ export default function HomeScreen({ navigation }: any) {
     </View>
   );
 }
-
 
 
