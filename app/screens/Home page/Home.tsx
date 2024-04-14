@@ -183,10 +183,46 @@ export default function HomeScreen({ navigation }: any) {
             }}
           />
         </Marker>
+        <Marker
+          coordinate={{ latitude: 23.553118, longitude: 121.0211024 }}
+        >
+          <Icon
+            name="landslide"
+            size={30}
+            color="red"
+            style={{
+              textShadowColor: 'red',
+              textShadowOffset: { width: 0, height: 0 },
+              textShadowRadius: 10,
+              shadowColor: 'red',
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.1,
+              elevation: 3,
+            }}
+          />
+        </Marker>
+        <Marker
+          coordinate={{ latitude: 36.0, longitude: 138.0 }}
+        >
+          <Icon
+            name="landslide"
+            size={30}
+            color="red"
+            style={{
+              textShadowColor: 'red',
+              textShadowOffset: { width: 0, height: 0 },
+              textShadowRadius: 10,
+              shadowColor: 'red',
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.1,
+              elevation: 3,
+            }}
+          />
+        </Marker>
       </MapView>
       <Surface style={stil.searchContainer}>
         <TextInput
-          placeholder="Type Here..."
+          placeholder="Search for a specific region"
           onChangeText={text => updateSearch(text)}
           value={search}
           style={stil.searchInput}
