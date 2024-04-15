@@ -135,16 +135,20 @@ const DonationScreen = ({ navigation }: any): any => {
   const [selectedHydrologicalOrganization, setHydrologicalOrganization] = useState(null);
 
   const HydrologicalOrganizations = [
-    { label: 'high', value: 'high' },
-    { label: 'moderate', value: 'moderate' },
-    { label: 'low', value: 'low' },
+    { label: 'Tzu Chi Foundation', value: 'Tzu Chi Foundation' },
+    { label: 'Mercy Corps', value: 'Mercy Corps' },
+    { label: 'Oxfam', value: 'Oxfam' },
+    { label: 'International Medical Corps', value: 'International Medical Corps' },
+    { label: 'Operation USA', value: 'Operation USA' },
   ];
   const [selectedBiologicalOrganization, setBiologicalOrganization] = useState(null);
 
   const BiologicalOrganizations = [
-    { label: 'high', value: 'high' },
-    { label: 'moderate', value: 'moderate' },
-    { label: 'low', value: 'low' },
+    { label: 'Doctors Without Borders', value: 'Doctors Without Borders' },
+    { label: 'Center for Disease Control and Prevention', value: 'Center for Disease Control and Prevention' },
+    { label: 'World Health Organization', value: 'World Health Organization' },
+    { label: 'International Federation of Red Cross and Red Crescent Societies', value: 'International Federation of Red Cross and Red Crescent Societies' },
+    { label: 'Direct Relief', value: 'Direct Relief' },
   ];
 
   return (
