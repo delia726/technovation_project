@@ -8,16 +8,15 @@ import { Button, TextInput, Text } from "react-native-paper";
 import { StyleSheet } from 'react-native';
 import { Surface } from "react-native-paper";
 //here you import
+
+
 const stil = StyleSheet.create({
   searchContainer: {
     position: "absolute",
-    top: 40,
-    left: 5,
-    right: 5,
+    top: 60,
+    left: 20,
+    right: 20,
     zIndex: 100,
-    borderColor: "#8B8484",
-    borderStyle: "solid",
-    borderWidth: 1,
     marginTop: 5,
     display: "flex",
     flexDirection: "row",
@@ -34,7 +33,7 @@ const stil = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
     position: 'absolute',
-    color: '#686060'
+    color: '#7D7373'
   
   },
   Text2: {
@@ -96,7 +95,7 @@ const stil = StyleSheet.create({
   
 })
 const DonationScreen = ({ navigation }: any): any => {
-  
+ 
   const [search, setSearch] = useState("")
   const updateSearch = (search: string) => {
     setSearch(search)
@@ -150,14 +149,16 @@ const DonationScreen = ({ navigation }: any): any => {
     { label: 'International Federation of Red Cross and Red Crescent Societies', value: 'International Federation of Red Cross and Red Crescent Societies' },
     { label: 'Direct Relief', value: 'Direct Relief' },
   ];
-
+  
   return (
     <>
+    <View style={{ backgroundColor: '#F4ECD6', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', height: '100%'}}>
     <Surface style={stil.searchContainer}>
         <TextInput
           placeholder="Search for a specific organization"
           onChangeText={text => updateSearch(text)}
           value={search}
+          mode="outlined"
           style={stil.searchInput}
           underlineColor="transparent"
           activeUnderlineColor="transparent"
@@ -169,7 +170,7 @@ const DonationScreen = ({ navigation }: any): any => {
          <Text style={stil.Text6}>Biological</Text>
          <Text style={stil.Text1}>Suggestions:</Text>
       </Surface>
-      <View style={{ marginVertical: 202, marginLeft: 18, borderColor: '#7D7373'  }}>
+      <View style={{ marginVertical: 220, marginLeft: 18, borderColor: '#7D7373'  }}>
         <RNPickerSelect
           placeholder={{label:"Click here to see organization that help with this disaster"}}
           items={WarOrganizationsOptions}
@@ -177,7 +178,7 @@ const DonationScreen = ({ navigation }: any): any => {
           value={WarOrganizations}
         />
       </View>
-      <View style={{ marginVertical: -158, marginLeft: 18, borderColor: '#7D7373'  }}>
+      <View style={{ marginVertical: -170, marginLeft: 18, borderColor: '#7D7373'  }}>
         <RNPickerSelect
           placeholder={{label:"Click here to see organization that help with this disaster"}}
           items={GeologicalOrganizations}
@@ -209,7 +210,7 @@ const DonationScreen = ({ navigation }: any): any => {
           value={selectedBiologicalOrganization}
         />
       </View>
-     
+      </View>
     </>
   );
 }
