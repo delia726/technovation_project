@@ -149,11 +149,15 @@ const DonationScreen = ({ navigation }: any): any => {
     { label: 'International Federation of Red Cross and Red Crescent Societies', value: 'International Federation of Red Cross and Red Crescent Societies' },
     { label: 'Direct Relief', value: 'Direct Relief' },
   ];
-  
+
+  const handleSendDonation = () => {
+    navigation.navigate('CreditCardForm');
+  };
+
   return (
     <>
     <View style={{ backgroundColor: '#F4ECD6', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', height: '100%'}}>
-    <Surface style={stil.searchContainer}>
+     <Surface style={stil.searchContainer}>
         <TextInput
           placeholder="Search for a specific organization"
           onChangeText={text => updateSearch(text)}
@@ -209,7 +213,23 @@ const DonationScreen = ({ navigation }: any): any => {
           onValueChange={(value) => setBiologicalOrganization(value)}
           value={selectedBiologicalOrganization}
         />
+
       </View>
+      <ScrollView style={{ marginTop: '-45%', padding: 20, }}>
+          <TextInput
+            label="Amount"
+            left={<TextInput.Affix text="$" />}
+            style={{ marginBottom: 30 }}
+            inputMode="numeric"
+            onChange={ev => setDonation(Number(ev.nativeEvent.text))}
+          />
+          <Button buttonColor='#300A31' mode="outlined" style={{ alignSelf: 'center', height: 45, width: 200, marginVertical:10}}
+                onPress={handleSendDonation}
+                textColor="white"
+            >Send</Button> 
+
+        </ScrollView>
+      
       </View>
     </>
   );

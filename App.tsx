@@ -6,6 +6,7 @@ import LoginScreen from './app/screens/Login';
 import MainNavigator from './app/screens/Main';
 
 import { LogBox } from 'react-native';
+import CreditCardForm from './app/screens/CreditCardForm';
 
 LogBox.ignoreLogs([
   /^AsyncStorage has been extracted from react-native/,
@@ -32,6 +33,7 @@ function App() {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Main" component={MainNavigator} options={{ headerShown: false }} />
+          <Stack.Screen name="CreditCardForm" component={CreditCardForm} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>

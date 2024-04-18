@@ -15,4 +15,4 @@
         onDismiss={console.log}
       >
         <Text style={{ color: 'white' }}>Thanks for your donation of {donation}$.</Text>
-      </Snackbar>*/
+      </Snackbar>
