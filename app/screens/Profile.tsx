@@ -95,7 +95,7 @@ const ProfileScreen = ({ navigation }: any): any => {
     <View style={{ backgroundColor: '#F4ECD6', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', height: '100%'}}>
 
 <View style={stil.textContainer}>
-        <Text style={stil.Text}>Account Name</Text>
+        <Text style={stil.Text}>Jane Doe</Text>
         <View style={stil.circle}></View>
         <View style={stil.rectangle}>
         <View style={stil.rectangle1}>
