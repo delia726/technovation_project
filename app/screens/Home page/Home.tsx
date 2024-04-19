@@ -7,9 +7,10 @@ import { StyleSheet } from 'react-native';
 import { SegmentedButtons } from 'react-native-paper';
 import { Marker } from "react-native-maps";
 import { List } from 'react-native-paper';
-import { Dialog, Portal, Text, Button } from 'react-native-paper'
+import { Dialog, Portal, Text, Button, Snackbar } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { IconButton, MD3Colors } from 'react-native-paper';
+import { View } from "react-native";
 
 
 const stil = StyleSheet.create({
@@ -85,108 +86,125 @@ export default function HomeScreen({ navigation }: any) {
   };
   const handleYesButtonPress = () => {
     setMarkerDialogVisible(false);
+    setSnackbarVisible(true); // Show Snackbar
   };
   const handleNoButtonPress = () => {
     setMarkerDialogVisible(false);
+    setSnackbarVisible(true);
   };
   const handleExitButtonPress = () => {
     setMarkerDialogVisible(false);
   };
   const [additionalBoxVisible, setAdditionalBoxVisible] = useState(false);
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  // Define states for each hazard type
+const [showWarning, setShowWarning] = useState(true);
+const [showLandslide, setShowLandslide] = useState(true);
+const [showCloud, setShowCloud] = useState(true);
+const [showWater, setShowWater] = useState(true);
+const [showMan, setShowMan] = useState(true);
+const toggleWarningMarkers = () => {
+  setShowWarning(!showWarning);
+};
+const toggleLandslideMarkers = () => {
+  setShowLandslide(!showLandslide);
+};
+const toggleCloudMarkers = () => {
+  setShowCloud(!showCloud);
+};
+const toggleWaterMarkers = () => {
+  setShowWater(!showWater);
+};
+const toggleManMarkers = () => {
+  setShowMan(!showMan);
+};
   return (
     <>
-      <MapView style={stil.map} initialRegion={initialRegion}>
-        <Marker
-          coordinate={{ latitude: 48.383022, longitude: 31.1828699 }}
-          onPress={showMarkerDialog}
-        >
-          <Icon
-            name="warning"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.6,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 31.416665, longitude: 34.333332 }}
-        >
-          <Icon
-            name="warning"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.6,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 15.5539046, longitude: 48.1748476 }}
-        >
-          <Icon
-            name="warning"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 4.1156735, longitude: -72.9301367 }}
-        >
-          <Icon
-            name="warning"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 19.311143, longitude: 77.774373 }}
-        >
-          <Icon
-            name="warning"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
+      <MapView style={stil.map}>
+      {showWarning && (
+        <><Marker
+            coordinate={{ latitude: 48.383022, longitude: 31.1828699 }}
+            onPress={showMarkerDialog}
+          >
+            <Icon
+              name="warning"
+              size={30}
+              color="red"
+              style={{
+                textShadowColor: 'red',
+                textShadowOffset: { width: 0, height: 0 },
+                textShadowRadius: 10,
+                shadowColor: 'red',
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 0.6,
+                elevation: 3,
+              }} />
+          </Marker><Marker
+            coordinate={{ latitude: 31.416665, longitude: 34.333332 }}
+          >
+              <Icon
+                name="warning"
+                size={30}
+                color="red"
+                style={{
+                  textShadowColor: 'red',
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 10,
+                  shadowColor: 'red',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.6,
+                  elevation: 3,
+                }} />
+            </Marker><Marker
+              coordinate={{ latitude: 15.5539046, longitude: 48.1748476 }}
+            >
+              <Icon
+                name="warning"
+                size={30}
+                color="orange"
+                style={{
+                  textShadowColor: 'orange',
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 10,
+                  shadowColor: 'orange',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.1,
+                  elevation: 3,
+                }} />
+            </Marker><Marker
+              coordinate={{ latitude: 4.1156735, longitude: -72.9301367 }}
+            >
+              <Icon
+                name="warning"
+                size={30}
+                color="yellow"
+                style={{
+                  textShadowColor: 'yellow',
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 10,
+                  shadowColor: 'yellow',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.1,
+                  elevation: 3,
+                }} />
+            </Marker><Marker
+              coordinate={{ latitude: 19.311143, longitude: 77.774373 }}
+            >
+              <Icon
+                name="warning"
+                size={30}
+                color="yellow"
+                style={{
+                  textShadowColor: 'yellow',
+                  textShadowOffset: { width: 0, height: 0 },
+                  textShadowRadius: 10,
+                  shadowColor: 'yellow',
+                  shadowOffset: { width: 0, height: 0 },
+                  shadowOpacity: 0.1,
+                  elevation: 3,
+                }} />
+            </Marker></>
+      )}
         <Marker
           coordinate={{ latitude: 23.553118, longitude: 121.0211024 }}
         >
@@ -652,29 +670,47 @@ export default function HomeScreen({ navigation }: any) {
         </List.Section>
       </ScrollView>}
       <Portal>
-        <Dialog visible={markerDialogVisible} onDismiss={hideDialog}>
-          <Dialog.Title>
-            <Text style={{ fontWeight: 'bold' }}>You clicked on the war between Ukraine and Russia</Text>
-          </Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyMedium">Is this hazard real?</Text>
-            <Text variant="bodyMedium">100.000+ other people say it is a real threat</Text>
-  <Button icon="plus" onPress={() => setAdditionalBoxVisible(!additionalBoxVisible)}>
-    Additional Information
-  </Button>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={handleNoButtonPress}>No</Button>
-            <Button onPress={handleYesButtonPress}>Yes</Button>
-            <Button onPress={handleExitButtonPress}>Exit</Button>
-
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+  <Dialog visible={markerDialogVisible} onDismiss={hideDialog}>
+    <Dialog.Title>
+      <Text style={{ fontWeight: 'bold' }}>You clicked on the war between Ukraine and Russia</Text>
+    </Dialog.Title>
+    <Dialog.Content>
+      <Text variant="bodyMedium">Is this hazard real?</Text>
+      <Text variant="bodyMedium">100.000+ other people say it is a real threat</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+        <Button icon="plus" onPress={() => setAdditionalBoxVisible(!additionalBoxVisible)}>
+          Additional Information
+        </Button>
+      </View>
+      {additionalBoxVisible && (
+        <ScrollView style={{ maxHeight: 200 }}>
+          <>
+            <Text>The ongoing conflict between Ukraine and Russia, primarily centered around eastern Ukraine and Crimea, stems from historical, cultural, and political tensions. With roots in Russia's annexation of Crimea in 2014 and ongoing military intervention, the war has resulted in significant humanitarian crises, including displacement, casualties, and geopolitical ramifications.</Text>
+          </>
+        </ScrollView>
+      )}
+    </Dialog.Content>
+    <Dialog.Actions>
+      <Button onPress={handleNoButtonPress}>No</Button>
+      <Button onPress={handleYesButtonPress}>Yes</Button>
+      <Button onPress={handleExitButtonPress}>Exit</Button>
+    </Dialog.Actions>
+  </Dialog>
+</Portal>
+<Snackbar
+        visible={snackbarVisible}
+        onDismiss={() => setSnackbarVisible(false)}
+        duration={2000} // Adjust duration as needed
+        style={{ marginBottom: 100, alignItems: 'center' }}
+      >
+        Thank you for verifying this!
+      </Snackbar>
     </>
 
   );
 }
+
+
 
 
 
