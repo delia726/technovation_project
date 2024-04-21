@@ -6,7 +6,7 @@ import LoginScreen from './app/screens/Login';
 import MainNavigator from './app/screens/Main';
 
 import { LogBox } from 'react-native';
-import CreditCardForm from './app/screens/CreditCardForm';
+
 
 LogBox.ignoreLogs([
   /^AsyncStorage has been extracted from react-native/,
