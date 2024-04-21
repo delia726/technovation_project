@@ -33,7 +33,6 @@ function App() {
         <Stack.Navigator>
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Main" component={MainNavigator} options={{ headerShown: false }} />
-          <Stack.Screen name="CreditCardForm" component={CreditCardForm} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
