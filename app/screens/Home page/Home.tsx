@@ -11,8 +11,83 @@ import { Dialog, Portal, Text, Button, Snackbar } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { IconButton, MD3Colors } from 'react-native-paper';
 import { View } from "react-native";
+interface Disaster{
+  longitude: number,
+  latitude: number,
+  type: "war"| "hydrological"|"biological"|"meteorological"|"landslide",
+  gravity: "severe"| "medium"| "low",
 
-
+}
+const mockDisaster: Disaster[]=[
+  
+  
+    {"longitude":31.1828699,"latitude":48.383022,"type":"war","gravity":"severe"},
+    {"longitude":26.287363627765556,"latitude":34.333332,"type":"war","gravity":"severe"},
+    {"longitude":48.1748476,"latitude":15.5539046,"type":"war","gravity":"medium"},
+    {"longitude":-72.9301367,"latitude":4.1156735,"type":"war","gravity":"low"},
+    {"longitude":-77.774373,"latitude":19.311143,"type":"war","gravity":"low"},
+    {"longitude":121.0211024,"latitude":23.553118,"type":"landslide","gravity":"severe"},
+    {"longitude":138.0,"latitude":36.0,"type":"landslide","gravity":"severe"},
+    {"longitude":100.7831,"latitude":-0.7893,"type":"landslide","gravity":"severe"},
+    {"longitude":-19.0208,"latitude":64.9631,"type":"landslide","gravity":"severe"},
+    {"longitude":8.6750,"latitude":61.0516,"type":"landslide","gravity":"medium"},
+    {"longitude":140.1486,"latitude":38.2806,"type":"landslide","gravity":"severe"},
+    {"longitude":-87.1181,"latitude":20.5888,"type":"landslide","gravity":"low"},
+    {"longitude":17.5707,"latitude":17.5707,"type":"meteorological","gravity":"severe"},
+    {"longitude":-97.0929,"latitude":35.0078,"type":"meteorological","gravity":"medium"},
+    {"longitude":-116.5765,"latitude":53.9333,"type":"meteorological","gravity":"low"},
+    {"longitude":151.2093,"latitude":-33.8688,"type":"meteorological","gravity":"low"},
+    {"longitude":90.3563,"latitude":23.6850,"type":"meteorological","gravity":"low"},
+    {"longitude":-80.15310425528218,"latitude":28.972439768217034,"type":"biological","gravity":"severe"},
+    {"longitude":-64.20516318561534,"latitude":-15.887452253943836,"type":"biological","gravity":"low"},
+    {"longitude":-54.5489932481225,"latitude":-8.053900526654973,"type":"biological","gravity":"medium"},
+    {"longitude":17.8132,"latitude":-30.5595,"type":"war","gravity":"medium"},
+    {"longitude":-76.2530,"latitude":-84.7153,"type":"war","gravity":"medium"},
+    {"longitude":139.6917,"latitude":35.6895,"type":"war","gravity":"severe"},
+    {"longitude":-0.1276,"latitude":51.5074,"type":"war","gravity":"severe"},
+    {"longitude":-78.8494,"latitude":35.7822,"type":"war","gravity":"low"},
+    {"longitude":-43.1729,"latitude":-22.9068,"type":"landslide","gravity":"severe"},
+    {"longitude":151.2093,"latitude":-33.8688,"type":"landslide","gravity":"medium"},
+    {"longitude":17.8753,"latitude":-29.4436,"type":"landslide","gravity":"low"},
+    {"longitude":86.9250,"latitude":27.9881,"type":"landslide","gravity":"low"},
+    {"longitude":7.2644,"latitude":43.7102,"type":"meteorological","gravity":"medium"},
+    {"longitude":-95.7129,"latitude":37.0902,"type":"meteorological","gravity":"medium"},
+    {"longitude":-68.1193,"latitude":-16.5000,"type":"meteorological","gravity":"low"},
+    {"longitude":138.6010,"latitude":-34.9285,"type":"meteorological","gravity":"low"},
+    {"longitude":28.0473,"latitude":-26.2041,"type":"biological","gravity":"severe"},
+    {"longitude":100.5018,"latitude":13.7563,"type":"biological","gravity":"medium"},
+    {"longitude":13.4050,"latitude":52.5200,"type":"biological","gravity":"medium"},
+    {"longitude":-77.0369,"latitude":38.9072,"type":"biological","gravity":"low"},
+    {"longitude":-58.3816,"latitude":-34.6037,"type":"biological","gravity":"low"},
+    {"longitude":133.7751,"latitude":-25.2744,"type":"biological","gravity":"low"},
+    {"longitude":126.9780,"latitude":37.5665,"type":"war","gravity":"medium"},
+    {"longitude":139.6917,"latitude":35.6895,"type":"war","gravity":"severe"},
+    {"longitude":100.5018,"latitude":13.7563,"type":"war","gravity":"severe"},
+    {"longitude":103.8198,"latitude":1.3521,"type":"war","gravity":"low"},
+    {"longitude":120.9842,"latitude":23.6978,"type":"landslide","gravity":"severe"},
+    {"longitude":136.9064,"latitude":35.1815,"type":"landslide","gravity":"medium"},
+    {"longitude":121.5654,"latitude":25.0320,"type":"landslide","gravity":"low"},
+    {"longitude":77.5946,"latitude":12.9716,"type":"meteorological","gravity":"severe"},
+    {"longitude":104.1954,"latitude":35.8617,"type":"meteorological","gravity":"medium"},
+    {"longitude":114.0579,"latitude":22.5431,"type":"meteorological","gravity":"low"},
+    {"longitude":160.5975,"latitude":61.1605,"type":"war","gravity":"medium"},
+    {"longitude":112.3698,"latitude":64.9517,"type":"war","gravity":"severe"},
+    {"longitude":105.3188,"latitude":61.5240,"type":"landslide","gravity":"severe"},
+    {"longitude":80.3190,"latitude":61.3700,"type":"landslide","gravity":"medium"},
+    {"longitude":70.3190,"latitude":50.1970,"type":"landslide","gravity":"low"}    
+]
+const modelToIcon={
+war:"warning", 
+landslide: "landslide",
+meteorological: "cloud",
+hydrological: "water",
+biological: "man",
+}
+const modelToColor={
+  severe: "red",
+  medium: "orange",
+  low: "yellow",
+}
 const stil = StyleSheet.create({
   map: {
     width: '100%',
@@ -68,12 +143,11 @@ export default function HomeScreen({ navigation }: any) {
     setSearch(search)
   };
   const [value, setValue] = React.useState('');
-  const initialRegion = {
-    latitude: 48.383022,
-    longitude: 31.1828699,
-    latitudeDelta: 0.25,
-    longitudeDelta: 0.15
-  };
+  const toggleValue= (buttonValue: string)=>{
+    if (buttonValue===value) {setValue("")}
+    else
+    setValue(buttonValue)
+  }
   const [expanded, setExpanded] = React.useState(false);
   const handlePress = () => setExpanded(!expanded);
   const [visible, setVisible] = React.useState(false);
@@ -86,7 +160,7 @@ export default function HomeScreen({ navigation }: any) {
   };
   const handleYesButtonPress = () => {
     setMarkerDialogVisible(false);
-    setSnackbarVisible(true); // Show Snackbar
+    setSnackbarVisible(true); 
   };
   const handleNoButtonPress = () => {
     setMarkerDialogVisible(false);
@@ -121,472 +195,31 @@ const toggleManMarkers = () => {
   return (
     <>
       <MapView style={stil.map}>
-      {showWarning && (
-        <><Marker
-            coordinate={{ latitude: 48.383022, longitude: 31.1828699 }}
+
+      { 
+        
+        mockDisaster.filter(disaster=>{
+          if(value==='')
+            return true
+          else
+          return value===disaster.type
+        }).map(disaster=>
+          <Marker
+            coordinate={{ latitude: disaster.latitude, longitude: disaster.longitude }}
             onPress={showMarkerDialog}
           >
             <Icon
-              name="warning"
+              name={modelToIcon[disaster.type]}
               size={30}
-              color="red"
-              style={{
-                textShadowColor: 'red',
-                textShadowOffset: { width: 0, height: 0 },
-                textShadowRadius: 10,
-                shadowColor: 'red',
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 0.6,
-                elevation: 3,
-              }} />
-          </Marker><Marker
-            coordinate={{ latitude: 31.416665, longitude: 34.333332 }}
-          >
-              <Icon
-                name="warning"
-                size={30}
-                color="red"
-                style={{
-                  textShadowColor: 'red',
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 10,
-                  shadowColor: 'red',
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.6,
-                  elevation: 3,
-                }} />
-            </Marker><Marker
-              coordinate={{ latitude: 15.5539046, longitude: 48.1748476 }}
-            >
-              <Icon
-                name="warning"
-                size={30}
-                color="orange"
-                style={{
-                  textShadowColor: 'orange',
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 10,
-                  shadowColor: 'orange',
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.1,
-                  elevation: 3,
-                }} />
-            </Marker><Marker
-              coordinate={{ latitude: 4.1156735, longitude: -72.9301367 }}
-            >
-              <Icon
-                name="warning"
-                size={30}
-                color="yellow"
-                style={{
-                  textShadowColor: 'yellow',
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 10,
-                  shadowColor: 'yellow',
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.1,
-                  elevation: 3,
-                }} />
-            </Marker><Marker
-              coordinate={{ latitude: 19.311143, longitude: 77.774373 }}
-            >
-              <Icon
-                name="warning"
-                size={30}
-                color="yellow"
-                style={{
-                  textShadowColor: 'yellow',
-                  textShadowOffset: { width: 0, height: 0 },
-                  textShadowRadius: 10,
-                  shadowColor: 'yellow',
-                  shadowOffset: { width: 0, height: 0 },
-                  shadowOpacity: 0.1,
-                  elevation: 3,
-                }} />
-            </Marker></>
-      )}
-        <Marker
-          coordinate={{ latitude: 23.553118, longitude: 121.0211024 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 36.0, longitude: 138.0 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: -0.7893, longitude: 100.7831 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 64.9631, longitude: -19.0208 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 61.0516, longitude: 8.6750 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 38.2806, longitude: 140.1486 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 20.5888, longitude: -87.1181 }}
-        >
-          <Icon
-            name="landslide"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 17.5707, longitude: 17.5707 }}
-        >
-          <Icon
-            name="cloud"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 35.0078, longitude: -97.0929 }}
-        >
-          <Icon
-            name="cloud"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 53.9333, longitude: -116.5765 }}
-        >
-          <Icon
-            name="cloud"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: -33.8688, longitude: 151.2093  }}
-        >
-          <Icon
-            name="cloud"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 23.6850, longitude: 90.3563 }}
-        >
-          <Icon
-            name="cloud"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 30.0668, longitude: 79.0193 }}
-        >
-          <Icon
-            name="water"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: -22.9068, longitude: -43.1729 }}
-        >
-          <Icon
-            name="water"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 30.5928, longitude: 114.3055 }}
-        >
-          <Icon
-            name="water"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 4.5709, longitude: -74.2973 }}
-        >
-          <Icon
-            name="water"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: -20.9176, longitude: 142.7028 }}
-        >
-          <Icon
-            name="water"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: -14.2350, longitude: -51.9253 }}
-        >
-          <Icon
-            name="man"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 12.8797, longitude: 121.7740 }}
-        >
-          <Icon
-            name="man"
-            size={30}
-            color="orange"
-            style={{
-              textShadowColor: 'orange',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'orange',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 14.0583, longitude: 108.2772 }}
-        >
-          <Icon
-            name="man"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: -4.0383, longitude: 21.7587 }}
-        >
-          <Icon
-            name="man"
-            size={30}
-            color="red"
-            style={{
-              textShadowColor: 'red',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'red',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker><Marker
-          coordinate={{ latitude: 34.5199, longitude: -105.8701 }}
-        >
-          <Icon
-            name="man"
-            size={30}
-            color="yellow"
-            style={{
-              textShadowColor: 'yellow',
-              textShadowOffset: { width: 0, height: 0 },
-              textShadowRadius: 10,
-              shadowColor: 'yellow',
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.1,
-              elevation: 3,
-            }}
-          />
-        </Marker>
+              color={modelToColor[disaster.gravity]}
+              />
+          </Marker>
+        )
+      }
       </MapView>
       <Surface style={stil.searchContainer}>
         <TextInput
-          placeholder="Type Here..."
+          placeholder="Search for a specific region..."
           onChangeText={text => updateSearch(text)}
           value={search}
           style={stil.searchInput}
@@ -605,7 +238,7 @@ const toggleManMarkers = () => {
       <ScrollView horizontal style={stil.buttons}>
         <SegmentedButtons
           value={value}
-          onValueChange={setValue}
+          onValueChange={toggleValue}
           buttons={[
             {
               value: 'war',
@@ -613,22 +246,22 @@ const toggleManMarkers = () => {
               label: 'war',
             },
             {
-              value: 'geological hazards',
-              label: 'geological',
+              value: 'landslide',
+              label: 'landslide',
               icon: () => <Icon name="landslide" size={20} />,
             },
             {
-              value: 'meteorological hazards',
+              value: 'meteorological',
               label: 'meteorological',
               icon: () => <Icon name="cloud" size={20} />,
             },
             {
-              value: 'hydrological hazards',
+              value: 'hydrological',
               label: 'hydrological',
               icon: () => <Icon name="water" size={20} />,
             },
             {
-              value: 'biological hazards',
+              value: 'biological',
               label: 'biological',
               icon: () => <Icon name="man" size={20} />,
             }
@@ -700,7 +333,7 @@ const toggleManMarkers = () => {
 <Snackbar
         visible={snackbarVisible}
         onDismiss={() => setSnackbarVisible(false)}
-        duration={2000} // Adjust duration as needed
+        duration={2000} 
         style={{ marginBottom: 100, alignItems: 'center' }}
       >
         Thank you for verifying this!
